@@ -74,9 +74,31 @@ def classifica(n):
                         flagf=1
                         break
 
-
     if(flagf==0):
         classe+='F'
+
+    #classificfunction
+        flagsob=0
+        if 'F' in classe:
+            for i in range(4):
+                    for i in range(4):
+                        for j in range(4):
+                            for x in range(4):
+                                w=b[0][x] or b[1][x] or b[2][x] or b[3][x]
+                                if(w==False):
+                                    flagsob=2
+                                    break
+                                else:
+                                    if(j!=x):
+                                        if(b[j][i] and b[x][i]):
+                                            flagsob=1
+                                            break
+            if flagsob == 1:
+                classe +='Fs'
+
+            if flagsob == 0:
+                classe+='FsFiFb'
+    #printa
 
     resp = '{'
     for i in range(4):
