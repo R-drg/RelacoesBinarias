@@ -1,14 +1,6 @@
 def classifica(n):
-
-    #reflexiva
-    flags=0
     classe=''
-    if n & 33825== 33825:
-        classe+='R'
 
-
-
-    #simetrica
     b = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
     b[3][3] = n & 32768 == 32768
     b[3][2] = n & 16384 == 16384
@@ -27,6 +19,18 @@ def classifica(n):
     b[0][1] = n & 2 == 2
     b[0][0] = n & 1 == 1
 
+    #reflexiva
+    if n & 33825== 33825:
+        classe+='R'
+
+    #irreflexiva
+    z= b[0][0] or b[1][1] or b[2][2] or b[3][3]
+    if z==False:
+        classe+='I'
+
+
+    #simetrica
+    flags=0
     for i in range(4):
         for j in range(4):
             if (b[i][j] and b[j][i] == False):
@@ -36,11 +40,33 @@ def classifica(n):
     if flags==0:
         classe+='S'
 
+    #transitivo
+    flagt=0
+    for i in range(4):
+        for j in range(4):
+            for x in range(4):
+                if(j!=x):
+                    if(b[i][j] and b[j][x]):
+                        if(not b[i][x]):
+                            flagt=1
+                            break
+
+    if flagt==-0:
+        classe+='T'
+
+    #equivalencia
+    if("RST" in classe):
+        classe+='E'
+
     #function or not
 
     flagf=0
 
     for i in range(4):
+        y=b[i][0] or b[i][1] or b[i][2] or b[i][3]
+        if(y == False):
+            flagf=1
+            break
         for j in range(4):
             for x in range(4):
                 if(j!=x):
@@ -59,6 +85,8 @@ def classifica(n):
                 resp += "("+ str(i+1) + "," + str(j+1)+")"
     resp += '}'
     file.write(resp + " " + classe +'\n')
+
+###############################################################################
 
 file=open('relacoesbinarias.txt','w')
 for n in range(65535):
